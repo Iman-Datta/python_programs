@@ -58,7 +58,7 @@ def display_student(student_dict):
         print("---- List of students ---")
         for details in student_dict.items():
             print("ID: ".format(details[0]), end="")
-            print("Name: {} Total: {} percentage: {}".format(details[1]["name"], details[1]["age"], details[1]["grade"]))
+            print("Name: {} Age: {} Grade: {}".format(details[1]["name"], details[1]["age"], details[1]["grade"]))
 
 
 def search_student(student_dict):

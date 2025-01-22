@@ -30,8 +30,8 @@ while True:
         else:
             i: int = 0
             for i in range(len(library)):
-                # print('Book ID: {} Name: {} Cost: {}'.format(library[i][0],library[i][1],library[i][2]))
-                print('Book ID: ' + library[i][0] + 'Name: ' + library[i][1] + 'Cost: ' + library[i][2])
+                print('Book ID: {} Name: {} Cost: {}'.format(library[i][0],library[i][1],library[i][2]))
+                # print('Book ID: ' + library[i][0] + 'Name: ' + library[i][1] + 'Cost: ' + library[i][2])
     elif choice == 3:
         if check_book() == 0:
             print("There is no book, press 1")
