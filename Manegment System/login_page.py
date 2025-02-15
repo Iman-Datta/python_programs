@@ -34,7 +34,7 @@ def create_account(user_dic):
         "last_name": lt_name,
         "password": paswd,
     }
-
+    
     print(f"Account created successfully for user: {ft_name}!")
 
 
