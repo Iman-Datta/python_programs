@@ -1,7 +1,7 @@
 class Authentication():
     def __init__(self):
-        Authentication.account = []
-        Authentication.sl_no = 1
+        self.account = []
+        self.sl_no = 0
     def menu(self):
         print("-" * 50)
         print("1: Create Account")
@@ -28,30 +28,26 @@ class Authentication():
             if user_nm in self.account:
                 print("This username already exists, try again")
             else:
-                pass
-            fnm = input("Enter your first name: ")
-            lnm = input("Enter your last name: ")
-            self.sl_no += 1
-            while True:
-                try:
-                    passw = int(input("Enter your new password (in numbers): "))
-                    re_passw = int(input("Enter same password: "))
-                    if re_passw == passw:
-                        break
-                    else:
-                        print("Passwords do not match. Please try again.")
-                except ValueError:
-                    print("Your password should in numbers.")
-                
-                
-            
-            user: dict = {
+                fnm = input("Enter your first name: ")
+                lnm = input("Enter your last name: ")
+                self.sl_no += 1
+                while True:
+                    try:
+                        passw = int(input("Enter your new password (in numbers): "))
+                        re_passw = int(input("Enter same password: "))
+                        if re_passw == passw:
+                            break
+                        else:
+                            print("Passwords do not match. Please try again.")
+                    except ValueError:
+                        print("Your password should in numbers.")            
+                user: dict = {
                 'sl' : self.sl_no,
                 'fnm' : fnm,
                 'lnm' : lnm,
                 'passw' : re_passw,
-            }
-
+                }
+                self.account.append(user)
             print(f"Account created successfully for user: {fnm}!")
             break
 
@@ -64,18 +60,17 @@ class Authentication():
                 print("Does not exit")
             passw = int(input("Enter your password: "))
 
-    # def show(self):
-    #     if not Authentication.account:
-    #         print("No student records available.")
-    #         return
-    #     else:
-    #         print(self.account)
     def show(self):
-        if not Authentication.account:  # Access the class variable directly
+        if not self.account:  # Access the class variable directly
             print("No student records available.")
             return
         else:
-            print(Authentication.account)  # Access the class variable directly
+            print("\nUser Information:")
+            print("-" * 50)
+            for item in self.account:
+                print(f"Serial number: {item['sl']}")
+                print(f"Name: {item['fnm']} {item['lnm']}")
+                print("-" *50)
 
 
 
