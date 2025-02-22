@@ -119,7 +119,6 @@ class Student:
     def search(self):
         fname = input("Enter first name: ")
         found = [item for item in self.stack if item['fname'] == fname]
-        
         if found:
             print("\nSearch Results:")
             print("-" *50)

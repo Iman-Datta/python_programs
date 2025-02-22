@@ -2,6 +2,7 @@ class Authentication:
     def __init__(self):
         self.account = []
         self.sl_no = 0
+
     def menu(self):
         print("-" * 50)
         print("1: Create Account")
@@ -9,6 +10,7 @@ class Authentication:
         print("3: Show Accounts Details")
         print("4: Exit")
         print("-" * 50)
+
         while True:
             try:
                 choice = int(input("Enter your choice (1 to 4): "))
@@ -24,7 +26,6 @@ class Authentication:
         print("------CREATE YOUR ACOOUNT------")
         while True:
             user_nm = input("Enter a unique user name: ")
-            # if user_nm in self.account:
             if any(user['usnm'] == user_nm for user in self.account): # from AI
                 print("This username already exists, try again")
                 break
@@ -41,52 +42,39 @@ class Authentication:
                         else:
                             print("Passwords do not match. Please try again.")
                     except ValueError:
-                        print("Your password should in numbers.")            
+                        print("Your password should in numbers.")  
+                # We are creating a new dict for storing user info.          
                 user: dict = {
-                'usnm' : user_nm,
-                'sl' : self.sl_no,
-                'fnm' : fnm,
-                'lnm' : lnm,
-                'passw' : re_passw,
+                    'usnm' : user_nm,
+                    'sl' : self.sl_no,
+                    'fnm' : fnm,
+                    'lnm' : lnm,
+                    'passw' : re_passw,
                 }
+                # Inserting the dict within a list
                 self.account.append(user)
             print(f"Account created successfully for user: {fnm}!")
             break
 
-    # def login(self):
-    #     while True:
-    #         usnm = input("Enter your user name: ")
-    #         if any(user['usnm'] not in usnm for user in self.account):
-    #             print("Does not exit")
-    #         # if usnm in self.account:
-    #         else:
-    #             while True:
-    #                 try:
-    #                     passw = int(input("Enter your password: "))
-    #                 except ValueError:
-    #                     print("Your password should in numbers.")
-    #                     if passw == self.account[passw]:
-    #                         print(f"Welcome back {self.account['fnm']}")
-
     def login(self):
         usnm = input("Enter your user name: ")
-        user = next((user for user in self.account if user['usnm'] == usnm), None)
-
+        user = [item for item in self.account if item['usnm'] == usnm]
+        # running a loop over list where each index of the list has a dict.
         if not user:
             print("Username does not exist. Try again.")
             return
-
         while True:
             try:
+                print(user)
                 passw = int(input("Enter your password: "))
-                if passw == user['passw']:
-                    print(f"Welcome back {user['fnm']}!")
+                if passw == user[0].get('passw'):
+                    print(f"Welcome back!")
                     return
                 else:
                     print("Incorrect password. Try again.")
             except ValueError:
                 print("Your password should be in numbers.")
-
+            
     def show(self):
         if not self.account:  # Access the class variable directly
             print("No student records available.")
@@ -99,10 +87,9 @@ class Authentication:
                 print(f"Name: {item['fnm']} {item['lnm']}")
                 print("-" *50)
 
-
-
 if __name__ == "__main__":
     acc = Authentication()
+
     while True:
         choice = acc.menu()
         if choice == 1:
