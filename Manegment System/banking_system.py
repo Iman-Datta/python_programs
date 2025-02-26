@@ -4,9 +4,9 @@ import random
 
 class User:
     def __init__(self):
-        self.empl_account = [] # Creating list to store data of employee
+        self.staff_account = [] # Creating list to store data of employee
         self.user_account = [] # Creating list to store data of user
-        self.empl_id = 0 # id for employee
+        self.staff_id = 0 # id for employee
         self.used_acc_numbers = set() # Store the all account numbers of users
         self.balence = 0 # initial balence of users.
 
@@ -14,16 +14,17 @@ class User:
         print("-" * 50)
         print("1: Create Account")
         print("2: Change account pin")
+        print("3: Account Details")
 
         while True:
             try:
-                choice = int(input("Enter your choice (1 to 2): ")) # Taking input from user
-                if choice in [1,2]:
+                choice = int(input("Enter your choice (1 to 3): ")) # Taking input from user
+                if choice in [1,2,3]:
                     return choice
                 else:
-                    print("Please enter a valid option: (1 to 2)")
+                    print("Please enter a valid option: (1 to 3)")
             except ValueError:
-                print("Invalid input. Please enter a number (1-2).")
+                print("Invalid input. Please enter a number (1 to 3).")
     
     def generate_acc_no(self):
         while True:
@@ -52,95 +53,86 @@ class User:
 
         if choice == 1: # For Bank Staff
             while True:
-                try:
-                    adha_no = int(input("Enter your Aadhaar card number: "))
-                    if 100000000000 <= adha_no <= 999999999999:
-                        break
-                    else:
-                        print("Invalid Aadhaar number! Please enter a 12-digit number.")
-                except ValueError:
-                    print("Your Aadhaar number should in numbers.")
-            while True:
-                usnm = input("Enter a unique user name: ")
-                if any(user['usnm'] == usnm for user in self.empl_account): # Running a loop over list where each index of the list has a dict. And 'Any' is a function
-                    print("This username already exists, try again")
-                    continue
-                else:
+                usnm_staff = input("Enter a unique username: ")
+                staff_found = any(item['usnm'] == usnm_staff for item in self.staff_account) # Checking username                
+                if not staff_found:
                     fnm = input("Enter your first name: ")
                     lnm = input("Enter your last name: ")
-                    self.empl_id += 1
                     while True:
-                        try:
-                            pin = int(input("Enter a new PIN: "))
-                            re_passw = int(input("Enter the same PIN: "))
-                            if re_passw == pin:
+                            passw = input("Enter a new password: ")
+                            re_passw = input("Re-enter your password: ")
+                            if passw == re_passw:
                                 break
                             else:
                                 print("Passwords do not match. Please try again.")
-                        except ValueError:
-                            print("Your password should in numbers.")
-                        
-                    empl_detail: dict = { # Creating user dict for employee
-                        'usnm' : usnm,
-                        'Aadhaarno' : adha_no,
-                        'account' : [
-                            {
-                            'id' : self.empl_id,
-                            'fnm' : fnm,
-                            'lnm' : lnm,
-                            'passw' : pin,
-                            }
-                        ]
+                    self.staff_id += 1  # Increment staff ID only after successful creation
+                    staff_detail = {  # Creating user dict for staff
+                        'id': self.staff_id,
+                        'usnm': usnm_staff,
+                        'password': passw,
+                        'fnm': fnm,
+                        'lnm': lnm,
                     }
-                    self.empl_account.append(empl_detail) # Inserting the dict within a list of employee
-                    print(f"Wellcome {fnm}")
+                    self.staff_account.append(staff_detail)  # Insert into staff list
+                    print(f"Welcome {fnm}!")
+                    break
+                else:
+                    print("Username already exists. Please choose a unique username and try again.")
                     break
 
-        else: # For user
+        else: # For Customer 
             while True:
-                usnm = input("Enter a unique user name: ")
-                if any(user['usnm'] == usnm for user in self.user_account): # Same as line no 40
-                    print("This username already exists, try again")
-                    continue
-
-                fnm = input("Enter your first name: ")
-                lnm = input("Enter your last name: ")
-                acc_no = self.generate_acc_no()  # Get a unique account number
-                pin = self.generate_pin_no()        # Get a random PIN
                 while True:
-                        try:
-                            adha_no = int(input("Enter your Aadhaar card number: "))
-                            if 100000000000 <= adha_no <= 999999999999:
-                                break
-                            else:
-                                print("Invalid Aadhaar number! Please enter a 12-digit number.")
-                        except ValueError:
-                            print("Your Aadhaar number should in numbers.")
-                existing_user = next((user for user in self.user_account if user['Aadhaarno'] == adha_no), None)
-                if existing_user:
-                    print("Aadhaar already exists. Creating an additional account under this user.")
-                    existing_user['accounts'].append({
-                    'id': acc_no,
-                    'pin': pin,
+                    try:
+                        aadha_no = int(input("Enter your Aadhaar card number: "))
+                        if 100000000000 <= aadha_no <= 999999999999:
+                            break
+                        else:
+                            print("Invalid Aadhaar number! Please enter a 12-digit number.")
+                    except ValueError:
+                        print("Your Aadhaar number should in numbers.")
+                existing_user = next((user for user in self.user_account if user['aadhaarno'] == aadha_no), None)
+                balence = self.balence
+                acc_no = self.generate_acc_no()  # Generate unique account number
+                pin = self.generate_pin_no()  # Generate random PIN
+                if existing_user: # Aadhaar no exist, Add a new account
+                    user = [item for item in self.user_account if item['aadhaarno'] == aadha_no]
+                    user_dict = user[0]
+                    # print(user_dict)
+                    user_dict['accounts'].append({
+                        'id': acc_no,
+                        'pin': pin,
+                        'balence' : balence,
+                        })
+                else: # New account
+                    while True:
+                        usnm = input("Enter a unique user name: ")
+                        if any(user['usnm'] == usnm for user in self.user_account):
+                            print("This username already exists, try again.")
+                            continue
+                        fnm = input("Enter your first name: ")
+                        lnm = input("Enter your last name: ")
+                        break
+
+                    user_detail = {
                     'usnm': usnm,
-                    })
-                else:
-                    user_detail: dict = { # Creating user dict for users
-                        'usnm' : usnm,
-                        'Aadhaarno' : adha_no,
-                        'accounts' : [
-                            {                    
-                            'id' : acc_no,
-                            'pin' : pin,
-                            'fnm' : fnm,
-                            'lnm' : lnm,
+                    'aadhaarno': aadha_no,
+                    'fnm': fnm,
+                    'lnm': lnm,
+                    'accounts': # Initialize accounts list with the first account
+                        [
+                            {
+                            'id': acc_no,
+                            'pin': pin,
+                            'balence' : balence,
                             }
                         ],
                     }
-                self.user_account.append(user_detail) # Inserting the dict within a list of employee
-                print(f"Welcome, {fnm}! Your account has been created successfully.")
-                print(f" Account Number: {acc_no}")
-                print(f" PIN: {pin} (Keep it safe!)")
+                    self.user_account.append(user_detail)
+                    print(f"Welcome! Your new account has been created successfully.")
+                print(f"Account Number: {acc_no}")
+                print(f"PIN: {pin} (Keep it safe!)")
+                print(self.user_account)
                 break
 
     def change_pin(self):
@@ -149,7 +141,7 @@ class User:
         except ValueError:
             print("Your Aadhaar number should in numbers.")
         # usnm = input("Enter your user name: ")
-        user_list = [user for user in self.user_account if user['Aadhaarno'] == aadh] # item is the dict and user_list is the list which contain one dict only
+        user_list = [user for user in self.user_account if user['aadhaarno'] == aadh] # item is the dict and user_list is the list which contain one dict only
         if user_list:
             accno = int(input("Enter your account number: "))
             acc = user_list[0].get('accounts')
@@ -187,8 +179,26 @@ class User:
     def tranasction_hist(self):
         pass
 
-    def acc_details(self):
-        pass
+    def acc_details(self): # For bank staff only
+        usnm = input("Enter your user name: ")
+        staff_found = [staff for staff in self.staff_account if staff['usnm'] == usnm]
+        if not staff_found:
+            print("nvalid username. Please try again.")
+            return
+        
+        passw = input("Enter your password: ")
+        if passw == staff_found[0].get('password'):
+            print(f"Login successful. Wllcome back {staff_found[0].get('fnm')}\n")
+            print("-" *50)
+            try:
+                customer_adh_no = int(input("Enter the customer's Aadhar number: "))
+                user = [item for item in self.user_account if item['aadhaarno'] == customer_adh_no]
+                if user:
+                    print(user)
+                else:
+                    print("User not found.")
+            except ValueError:
+                print("Account number should be in numbers.")
 
     def close_account(self):
         pass
@@ -202,5 +212,7 @@ if __name__ == "__main__":
             us_authentication.create()
         elif choice == 2:
             us_authentication.change_pin()
+        elif choice == 3:
+            us_authentication.acc_details()
         else:
             break

@@ -65,7 +65,6 @@ class Authentication:
             return
         while True:
             try:
-                print(user)
                 passw = int(input("Enter your password: "))
                 if passw == user[0].get('passw'):
                     print(f"Welcome back!")
