@@ -98,7 +98,6 @@ class Student:
         print("New record inserted")
         Student.roll += 1
 
-
     def display(self):
         if not self.stack:
             print("No student records available.")
@@ -131,8 +130,6 @@ class Student:
                 print("-" *50)
         else:
             print("No student found with that name.")
-
-
 
 if __name__ == '__main__':
     ob_student = Student()
