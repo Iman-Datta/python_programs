@@ -23,9 +23,8 @@ students[1]['grade'] = 'B+'
 #     print(row)
 
 students.append({'name': 'Susan', 'age': 21, 'grade':'A'})
-
-# for row in students:
-#     print(row)
+for row in students:
+    print(row)
 
 # Sorting of the list using age field
 # Lambda Function: Is meanto make the function smal  & precise
