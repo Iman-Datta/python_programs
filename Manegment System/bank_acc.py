@@ -4,7 +4,7 @@ class BankAccount:
         self.holder_name = holder_name
         self.balance: float = balance
         
-    def transfer(self, recipient, amount):
+    def transfer(self, recipient, amount: float):
         if 0 < amount <= self.balance:
             self.balance -= amount
             recipient.balance += amount
