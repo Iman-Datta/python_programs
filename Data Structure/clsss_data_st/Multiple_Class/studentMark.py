@@ -14,8 +14,3 @@ class StudentMark:
     def display_all(self):
         for student, mark in self.students:
             print(student," ",mark)
-
-
-
-    
-
