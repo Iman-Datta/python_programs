@@ -2,7 +2,7 @@
 students = [
     {'name': 'Alice', 'age': 20, 'grade':'A'},
     {'name': 'Bob', 'age': 21, 'grade':'A+'},
-    {'name': 'Peter', 'age': 25, 'grade':'B'},
+    {'name': 'Peter', 'age': 2, 'grade':'B'},
 ]
 
 # Python Memory Management: Automatic Memory Managment with Garbage Collector
