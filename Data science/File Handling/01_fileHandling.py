@@ -7,3 +7,7 @@ s = "I am Iman" # Store a string in a variable
 f = open("iman.txt", "w") # Open (or create) the file "iman.txt" in write mode
 f.write(s) # Write the string into the file
 f.close() # Close the file after writing
+
+
+
+# with is used for automatic resource management.
