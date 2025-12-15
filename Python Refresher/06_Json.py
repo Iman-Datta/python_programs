@@ -13,5 +13,11 @@ python_dict = json.loads(json_str) # loads convert a json to a python dict
 print(type(python_dict))
 print(python_dict)
 
+# WRITE JSON
 with open("data.json", "w") as f:
     json.dump(py_obj, f) # Convert the Python object (py_obj) into JSON format and write it directly into the file
+
+# READ JSON
+with open("data.json", "r") as f:
+    data = json.load(f)
+print(data)
