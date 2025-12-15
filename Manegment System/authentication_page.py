@@ -92,7 +92,7 @@ if __name__ == "__main__":
     while True:
         choice = acc.menu()
         if choice == 1:
-            acc.create()
+            acc.create()      
         elif choice == 2:
             acc.login()
         elif choice == 3:
